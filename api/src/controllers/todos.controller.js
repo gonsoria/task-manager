@@ -41,13 +41,15 @@ const createTodo = async (req, res) => {
     const { todoData } = req.body
     // todoData = {
     //     title,
-    //     description
+    //     description,
+    //     folderId
     // }
     try {
         const newTodo = await prisma.todo.create({
             data: {
                 title: todoData.title,
                 description: todoData.description,
+                folderId: Number(todoData.folderId)
             }
         })
 
