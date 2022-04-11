@@ -9,7 +9,7 @@ const {
 } = require('../controllers/folders.controller')
 
 
-// GET ALL FOLDERS - GET FOLDER BY ID
+// GET ALL FOLDERS - GET FOLDER CONTENT 
 router.get('/', getFolders)
 router.get('/:id', getFolderById)
 

@@ -17,8 +17,8 @@ model Todo {
   todoStatus  Status   @default(INCOMPLETE)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  folder      Folder?  @relation(fields: [folderId], references: [id])
-  folderId    Int?
+  folder      Folder   @relation(fields: [folderId], references: [id])
+  folderId    Int
   user        User?    @relation(fields: [userId], references: [id])
   userId      Int?
 }
@@ -33,7 +33,7 @@ model Folder {
 
 model User {
   id       Int      @id @default(autoincrement())
-  email    String
+  email    String   @unique @db.VarChar(50)
   password String
   todo     Todo[]
   folder   Folder[]
