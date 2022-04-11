@@ -21,6 +21,13 @@ const getUserByEmail = async (req, res) => {
         const user = await prisma.user.findUnique({
             where: {
                 email
+            }, 
+            include: {
+                folder: {
+                    include: {
+                        todo:true
+                    }
+                },
             }
         })
         
@@ -56,9 +63,9 @@ const createUser = async (req, res) => {
             })
             res.status(200).json(newUser)
         } else {
-            res.send('User already exists')
-        }
-        
+            console.log('user already exists')
+            res.send() // user already exists
+        }        
 
     } catch (error) {
         console.log(error)
