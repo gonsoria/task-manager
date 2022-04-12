@@ -12,7 +12,11 @@ const createFolder = async (req, res) => {
     try {
         const newFolder = await prisma.folder.create({
             data: {
-                folderName: folderData.name
+                folderName: folderData.folderName,
+                userId: folderData.userId
+            },
+            include: {
+                todo:true
             }
         })
         console.log('new folder created')

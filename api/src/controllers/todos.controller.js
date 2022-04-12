@@ -37,15 +37,41 @@ const getTodoById = async (req, res) => {
 
 }
 
+
+const getUserTodos = async(req, res) => {
+    const { email } = req.params
+    try {
+        const findUser = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
+
+        if(findUser) {
+            const userTodos = await prisma.todo.findMany({
+                where: {
+                    userId: findUser.id
+                }
+            })
+            res.status(200).json(userTodos)
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+}
+
 const createTodo = async (req, res) => {
-    const { title, description, folderId } = req.body
+    const { title, description, folderId, userId } = req.body
 
     try {
         const newTodo = await prisma.todo.create({
             data: {
                 title,
                 description,
-                folderId: Number(folderId)
+                folderId: Number(folderId),
+                userId: Number(userId)
             }
         })
 
@@ -113,5 +139,6 @@ module.exports = {
     getTodoById,
     createTodo,
     editTodo,
-    deleteTodo
+    deleteTodo,
+    getUserTodos
 }

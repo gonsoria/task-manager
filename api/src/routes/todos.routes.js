@@ -6,13 +6,15 @@ const {
     createTodo,
     getTodoById,
     editTodo,
-    deleteTodo
+    deleteTodo,
+    getUserTodos
 } = require('../controllers/todos.controller')
 
 
 // GET ALL TODOS - GET TODO BY ID
 router.get('/', getTodos)
 router.get('/:id', getTodoById)
+router.get('/user/:email', getUserTodos)
 
 // CREATE TODO
 router.post('/post', createTodo)
