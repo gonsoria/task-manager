@@ -30,7 +30,6 @@ function Login() {
     const handleLogIn = (e) => {
         e.preventDefault()
         dispatch(logIn(userData))
-        console.log(isAuthenticated)
         if (isAuthenticated) {
             setUserData(initialUserData)
         }

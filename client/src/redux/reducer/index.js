@@ -19,6 +19,7 @@ export default function rootReducer (state = initialState, action) {
                 ...state,
                 accountCreated: action.payload
             }
+
         default:
             return state
     }

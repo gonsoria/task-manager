@@ -38,18 +38,14 @@ const getTodoById = async (req, res) => {
 }
 
 const createTodo = async (req, res) => {
-    const { todoData } = req.body
-    // todoData = {
-    //     title,
-    //     description,
-    //     folderId
-    // }
+    const { title, description, folderId } = req.body
+
     try {
         const newTodo = await prisma.todo.create({
             data: {
-                title: todoData.title,
-                description: todoData.description,
-                folderId: Number(todoData.folderId)
+                title,
+                description,
+                folderId: Number(folderId)
             }
         })
 
@@ -62,7 +58,7 @@ const createTodo = async (req, res) => {
 
 const editTodo = async (req, res) => {
     const { id } = req.params
-    const { newData } = req.body
+    const { title, description, todoStatus } = req.body
     try {
         if(id) {
             const todo = await todoFinder(id)
@@ -72,9 +68,9 @@ const editTodo = async (req, res) => {
                         id: todo.id
                     },
                     data: {
-                        title: newData.title === '' ? todo.title : newData.title,
-                        description: newData.description === '' ? todo.description : newData.description,
-                        todoStatus: newData.todoStatus === '' ? todo.todoStatus : newData.todoStatus
+                        title: title === '' ? todo.title : title,
+                        description: description === '' ? todo.description : description,
+                        todoStatus: todoStatus === '' ? todo.todoStatus : todoStatus
                     }
                 })
                 console.log('Update succes!')
@@ -87,6 +83,7 @@ const editTodo = async (req, res) => {
     }
     
 }
+
 
 const deleteTodo = async (req, res) => {
     const { id } = req.params

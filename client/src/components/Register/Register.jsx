@@ -33,12 +33,10 @@ function Register() {
     }
 
     return (
-
-        < Container Container className={styles.container} >
+        <Container className={styles.container} >
             {
                 accountCreated ? <AccountCreated /> :
                     <div>
-
                         <h2 className={styles.title}>Sign up</h2>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group className={styles.textContainer} controlId="formBasicEmail">
