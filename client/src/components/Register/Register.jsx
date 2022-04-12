@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
 import styles from '../../styles/Styles.module.css'
 import { createUser } from '../../redux/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,7 +32,7 @@ function Register() {
     }
 
     return (
-        <Container className={styles.container} >
+        <div className={styles.container} >
             {
                 accountCreated ? <AccountCreated /> :
                     <div>
@@ -71,7 +70,7 @@ function Register() {
                     </div>
 
             }
-        </Container>
+        </div>
 
     )
 }

@@ -1,6 +1,23 @@
+.navBar {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.navBar a {
+    text-decoration: none;
+}
+
+.hide {
+    display: none;
+}
+
 .container {
-    max-width: 60vw;
+    width: 80vw;
     padding: 50px 0;
+    margin: auto;
 }
 
 .title {
@@ -17,4 +34,12 @@
 .button {
     width: 100%;
     margin: 5px 0;
+}
+
+@media screen and (min-width: 576px) {
+    .container {
+        width: 40vw;
+        padding: 50px 0;
+        margin: auto;
+    }
 }

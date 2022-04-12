@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/esm/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -6,11 +6,13 @@ import TodoCard from '../TodoCard/TodoCard'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import styles from '../../styles/Styles.module.css'
-import { createTodo, getProfileData } from '../../redux/actions'
+import { createTodo } from '../../redux/actions'
 
 
 function Folder() {
     const { id } = useParams()
+    const folders = useSelector(state => state.folders)
+    const todos = useSelector(state => state.todos)
     const profile = useSelector(state => state.profile)
     const dispatch = useDispatch()
 
@@ -21,7 +23,8 @@ function Folder() {
     const initialFormValue = {
         title: '',
         description: '',
-        folderId: id
+        folderId: id,
+        userId: profile.id
     }
 
     const [formValue, setFormValue] = useState(initialFormValue)
@@ -34,19 +37,17 @@ function Folder() {
         })
     }
 
-    let todos = profile?.folder?.filter(f => f.id === Number(id))
-    let actualFolder = profile?.folder?.filter(f => f.id === Number(id))
+    let actualFolder = folders?.filter(f => f.id === Number(id))
+    let actualTodos = todos.filter(todo => todo.folderId === Number(id))
+    console.log(todos)
+    console.log(actualFolder)
+    console.log(actualTodos)
 
     const handleAddToDo = (e) => {
         e.preventDefault()
         dispatch(createTodo(formValue))
-        console.log(formValue)
         setFormValue(initialFormValue)
     }
-
-    useEffect(() => {
-        dispatch(getProfileData(profile.email))
-    })
 
     return (
         <div>
@@ -92,7 +93,7 @@ function Folder() {
                 </Modal.Body>
             </Modal>
             {
-                todos[0].todo.map(task =>
+                actualTodos?.map(task =>
                     <TodoCard
                         key={task.id}
                         id={task.id}

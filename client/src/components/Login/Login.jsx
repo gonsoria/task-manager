@@ -2,22 +2,23 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
 import styles from '../../styles/Styles.module.css'
 import { logIn } from '../../redux/actions'
 import { Link } from 'react-router-dom'
 
 function Login() {
     const dispatch = useDispatch()
-    const isAuthenticated = useSelector(state => state.isAuthenticated)
-
+    const accountStatus = useSelector(state => state.accountStatus)
 
     const initialUserData = {
         email: '',
         password: ''
     }
 
+    //FORM CONTROL
     const [userData, setUserData] = useState(initialUserData)
+    const [error, setError] = useState(null)
+
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -27,17 +28,27 @@ function Login() {
         })
     }
 
+
     const handleLogIn = (e) => {
         e.preventDefault()
-        dispatch(logIn(userData))
-        if (isAuthenticated) {
-            setUserData(initialUserData)
+        if (userData.email.trim() === '') {
+            setError('Email is required')
+            return;
+        }
+        if (userData.password.trim() === '') {
+            setError('Password is required')
+            return;
+        }
+        else {
+            setError(null)
+            dispatch(logIn(userData))
+            // setUserData(initialUserData)
         }
     }
 
 
     return (
-        <Container className={styles.container}>
+        <div className={styles.container}>
             <h2 className={styles.title}>Log in</h2>
             <Form onSubmit={handleLogIn}>
                 <Form.Group className={styles.textContainer} controlId="formBasicEmail">
@@ -50,6 +61,9 @@ function Login() {
                         onChange={handleChange}
                     />
                     <Form.Text className="text-muted">
+                        {
+                            error === 'Email is required' ? error : accountStatus === "Cannot find user" ? accountStatus : null
+                        }
                     </Form.Text>
                 </Form.Group>
 
@@ -62,6 +76,12 @@ function Login() {
                         value={userData.password}
                         onChange={handleChange}
                     />
+                    <Form.Text className="text-muted">
+                        {
+                            error === 'Password is required' ? error : accountStatus === 'failed' ? 'Password incorrect' : null
+                        }
+                    </Form.Text>
+
                 </Form.Group>
 
                 <Button variant="dark" size="lg" className={styles.button} type='submit'>
@@ -77,7 +97,7 @@ function Login() {
                     </Link>
                 </Form.Text>
             </Form>
-        </Container>
+        </div>
     )
 }
 
