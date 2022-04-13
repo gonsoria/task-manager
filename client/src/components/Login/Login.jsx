@@ -49,7 +49,7 @@ function Login() {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>Log in</h2>
+            <h2 className={styles.title}>Log in yo your account</h2>
             <Form onSubmit={handleLogIn}>
                 <Form.Group className={styles.textContainer} controlId="formBasicEmail">
                     <Form.Label >Email address</Form.Label>
