@@ -1,23 +1,22 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Form from 'react-bootstrap/Form'
+import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 import styles from '../../styles/Styles.module.css'
 import { logIn } from '../../redux/actions'
 import { Link } from 'react-router-dom'
-import Spinner from 'react-bootstrap/Spinner'
 
 function Login() {
     const dispatch = useDispatch()
     const accountStatus = useSelector(state => state.accountStatus)
-    const isAuthenticated = useSelector(state => state.isAuthenticated)
-
-    console.log(isAuthenticated)
 
     const initialUserData = {
         email: '',
         password: ''
     }
+
+    const [loading, setLoading] = useState(false)
 
     //FORM CONTROL
     const [userData, setUserData] = useState(initialUserData)
@@ -46,6 +45,10 @@ function Login() {
         else {
             setError(null)
             dispatch(logIn(userData))
+            setLoading(true)
+            if (accountStatus === 'success') {
+                setLoading(false)
+            }
             // setUserData(initialUserData)
         }
     }
@@ -53,7 +56,7 @@ function Login() {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>Log in yo your account</h2>
+            <h2 className={styles.title}>Log into your account</h2>
             <Form onSubmit={handleLogIn}>
                 <Form.Group className={styles.textContainer} controlId="formBasicEmail">
                     <Form.Label >Email address</Form.Label>
@@ -89,18 +92,15 @@ function Login() {
                 </Form.Group>
 
                 <Button variant="dark" size="lg" className={styles.button} type='submit'>
-
                     {
-                        isAuthenticated ? 'Continue' :
+                        !loading ? 'Continue' :
                             < Spinner
                                 as="span"
                                 animation="border"
                                 size="sm"
                                 role="status"
                                 aria-hidden="true"
-                                className={styles.spinner}
                             />
-
                     }
                 </Button>
                 <Form.Text>
