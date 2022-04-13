@@ -111,7 +111,7 @@ function TodoCard({ title, description, created, status, id }) {
                     <p>{description}</p>
                     <p>Created: {created.split('T')[0]}</p>
                 </div>
-                <div>
+                <div className={styles.buttons}>
                     <Button variant="primary" onClick={handleShow} className={styles.button}>
                         <AiOutlineEdit className={styles.icon} /> </Button>
 
