@@ -1,0 +1,22 @@
+{
+  "name": "task-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "api": "cd api && nodemon src/index.js",
+    "client": "cd client && npm start",
+    "start": "concurrently -n 'server,client' -c 'green,blue' \"npm run api\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gonsoria/task-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gonsoria/task-manager/issues"
+  },
+  "homepage": "https://github.com/gonsoria/task-manager#readme"
+}
