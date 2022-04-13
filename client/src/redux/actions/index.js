@@ -34,7 +34,6 @@ export const logIn = (userData) => {
             if (req.data === 'success') {
                 const user = await axios.get(PROFILE + email)
                 const userTodos = await axios.get(USER_TODOS + email)
-                console.log(userTodos)
                 const userProfile = {
                     id: user.data.id,
                     email: user.data.email,

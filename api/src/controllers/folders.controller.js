@@ -15,7 +15,7 @@ const createFolder = async (req, res) => {
                 folderName: folderData.folderName,
                 userId: folderData.userId
             },
-            include: {
+            include: { 
                 todo:true
             }
         })
@@ -25,7 +25,7 @@ const createFolder = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
-    }
+    } 
 }
 
 const getFolders = async (req, res) => {

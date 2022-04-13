@@ -1,3 +1,7 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .navBar {
     display: flex;
     width: 100%;
@@ -8,10 +12,6 @@
 
 .navBar a {
     text-decoration: none;
-}
-
-.hide {
-    display: none;
 }
 
 .container {
@@ -35,6 +35,8 @@
     width: 100%;
     margin: 5px 0;
 }
+
+
 
 @media screen and (min-width: 576px) {
     .container {

@@ -9,7 +9,6 @@ import { logOut } from '../../redux/actions'
 function NavBar() {
     const dispatch = useDispatch()
     const isAuthenticated = useSelector(state => state.isAuthenticated)
-
     const handleLogOut = () => {
         dispatch(logOut())
     }
@@ -22,9 +21,13 @@ function NavBar() {
                         Todo App
                     </Navbar.Brand>
                 </Link>
-                <Button variant="dark" onClick={handleLogOut} className={isAuthenticated ? `${styles.logout}` : `${styles.hide}`}>
-                    Log out
-                </Button>
+                {
+                    isAuthenticated ?
+                        <Button variant="dark" onClick={handleLogOut} href='/'>
+                            Log out
+                        </Button>
+                        : null
+                }
             </div>
         </Navbar>
     )

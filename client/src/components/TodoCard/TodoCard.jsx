@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import styles from '../../styles/Styles.module.css'
+import ListGroup from 'react-bootstrap/ListGroup'
+import styles from './TodoCard.module.css'
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai'
 
 import { deleteTodo, editTodo } from '../../redux/actions'
 
@@ -62,7 +63,11 @@ function TodoCard({ title, description, created, status, id }) {
 
     return (
         <div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                centered
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Edit</Modal.Title>
                 </Modal.Header>
@@ -89,34 +94,38 @@ function TodoCard({ title, description, created, status, id }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-
-                        <Button variant="dark" size="lg" className={styles.button} type='submit'>
-                            Edit
-                        </Button>
+                        <div className={styles.buttonContainer}>
+                            <Button variant="dark" size="lg" className={styles.button} type='submit'>
+                                Edit
+                            </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>
-            <Card style={{ width: '18rem' }}>
-                <Card.Body>
-                    <Card.Title>{title}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{created.split('T')[0]}</Card.Subtitle>
-                    <Card.Text>
-                        {description}
-                    </Card.Text>
-                    <Button variant="dark" onClick={handleShow}>Edit</Button>
+            <ListGroup.Item
+                as="li"
+                className="d-flex justify-content-between align-items-center"
+            >
+                <div className={styles.todoInfo}>
+                    <h2 className={styles.todoTitle}>{title}</h2>
+                    <p>{description}</p>
+                    <p>Created: {created.split('T')[0]}</p>
+                </div>
+                <div>
+                    <Button variant="primary" onClick={handleShow} className={styles.button}>
+                        <AiOutlineEdit className={styles.icon} /> </Button>
 
-                    <Button variant="dark" onClick={handleDelete}>Delete</Button>
+                    <Button variant="danger" onClick={handleDelete} className={styles.button}> <AiOutlineDelete className={styles.icon} /> </Button>
 
                     <Button variant=
-                        {status === 'INCOMPLETE' ? 'outline-success' : 'success'}
-                        onClick={handleStatus}
+                        {status === 'INCOMPLETE' ? 'outline-secondary' : 'success'}
+                        onClick={handleStatus} className={styles.button}
                     >
-                        {
-                            status === 'INCOMPLETE' ? 'Complete' : 'Completed'
-                        }
+                        <AiOutlineCheck className={styles.icon} />
                     </Button>
-                </Card.Body>
-            </Card>
+                </div>
+            </ListGroup.Item>
+
         </div>
     )
 }

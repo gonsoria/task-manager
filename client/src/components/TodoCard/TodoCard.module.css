@@ -1,0 +1,32 @@
+.buttonContainer {
+    text-align: right;
+}
+
+.textContainer {
+    text-align: left;
+    padding-bottom: 15px;
+}
+
+.todoInfo {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+}
+
+.todoInfo p {
+    margin: 0;
+}
+
+.todoTitle {
+    font-weight: 600;
+}
+
+.icon {
+    font-size: 20px;
+    margin: 0;
+}
+
+.button {
+    padding: 4px 8px;
+    margin: 5px;
+}

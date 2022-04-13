@@ -1,108 +1,60 @@
 import React, { useState } from 'react'
-import Button from 'react-bootstrap/esm/Button'
+import { Link } from 'react-router-dom'
+import { BsFolder } from 'react-icons/bs'
+import Button from 'react-bootstrap/Button'
+import styles from '../Profile/Profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import TodoCard from '../TodoCard/TodoCard'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
-import styles from '../../styles/Styles.module.css'
-import { createTodo } from '../../redux/actions'
+import { deleteFolder } from '../../redux/actions'
 
 
-function Folder() {
-    const { id } = useParams()
-    const folders = useSelector(state => state.folders)
+function Folder({ folderId, folderName, userId }) {
     const todos = useSelector(state => state.todos)
-    const profile = useSelector(state => state.profile)
     const dispatch = useDispatch()
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [warning, setWarning] = useState(false)
 
-    const initialFormValue = {
-        title: '',
-        description: '',
-        folderId: id,
-        userId: profile.id
+    const handleDelete = (folderId) => {
+        if (warning) {
+            dispatch(deleteFolder(folderId))
+            setWarning(false)
+        }
     }
-
-    const [formValue, setFormValue] = useState(initialFormValue)
-
-    const handleChange = (e) => {
-        e.preventDefault()
-        setFormValue({
-            ...formValue,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    let actualFolder = folders?.filter(f => f.id === Number(id))
-    let actualTodos = todos.filter(todo => todo.folderId === Number(id))
-    console.log(todos)
-    console.log(actualFolder)
-    console.log(actualTodos)
-
-    const handleAddToDo = (e) => {
-        e.preventDefault()
-        dispatch(createTodo(formValue))
-        setFormValue(initialFormValue)
-    }
-
     return (
-        <div>
-            <div>
-                <h2>Folder {`> ${actualFolder[0]?.folderName}`}</h2>
+        <div className={styles.folderContainer}>
+            <BsFolder className={styles.icon} />
+            <div className={styles.folderInfo}>
+                <Link to={'/folder/' + folderId} >
+                    <h5>{folderName}</h5>
+                </Link>
+                <h6>Items: {
+                    todos?.filter(todo => todo.folderId === folderId).length
+                }</h6>
             </div>
-            <Button variant="dark" onClick={handleShow}>
-                Add new to do
-            </Button>
+            <div >
+                <Button
+                    variant="outline-danger"
+                    onClick={() => setWarning(true)}
+                >
+                    Delete folder
+                </Button>
+            </div>
+            {warning === true ?
+                <div className={styles.alert}>
+                    All items inside this folder will be deleted, are you sure you want to complete de action?
+                    <Button
+                        variant="danger"
+                        onClick={() => handleDelete(folderId)}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        variant="success"
+                        onClick={() => setWarning(false)}
+                    >
+                        Cancel
+                    </Button>
+                </div> : null
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add new To do</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleAddToDo}>
-                        <Form.Group className={styles.textContainer} controlId="formBasicEmail">
-                            <Form.Label >Title</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder="Todo title"
-                                name="title"
-                                value={formValue.title}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-
-                        <Form.Group className={styles.textContainer} controlId="formBasicPassword">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" rows={3}
-                                type="text"
-                                placeholder="Add a description.."
-                                name='description'
-                                value={formValue.description}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-
-                        <Button variant="dark" size="lg" className={styles.button} type='submit'>
-                            Add to-do
-                        </Button>
-                    </Form>
-                </Modal.Body>
-            </Modal>
-            {
-                actualTodos?.map(task =>
-                    <TodoCard
-                        key={task.id}
-                        id={task.id}
-                        title={task.title}
-                        description={task.description}
-                        created={task.createdAt}
-                        status={task.todoStatus}
-                    />
-                )
             }
         </div>
     )

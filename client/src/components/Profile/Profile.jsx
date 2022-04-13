@@ -2,16 +2,14 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import styles from '../../styles/Styles.module.css'
+import styles from './Profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { createFolder, deleteFolder } from '../../redux/actions'
+import { createFolder } from '../../redux/actions'
+import Folder from '../Folder/Folder'
 
 function Profile() {
     const profileData = useSelector(state => state.profile)
     const folders = useSelector(state => state.folders)
-    const todos = useSelector(state => state.todos)
-
     const dispatch = useDispatch()
 
     const [show, setShow] = useState(false);
@@ -24,6 +22,7 @@ function Profile() {
     }
 
     const [folderData, setFolderData] = useState(initialFormData)
+    const [error, setError] = useState(null)
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -33,31 +32,46 @@ function Profile() {
         })
     }
 
-    const handleDelete = (folderId) => {
-        dispatch(deleteFolder(folderId))
-    }
+
 
     const handleNewFolder = (e) => {
         e.preventDefault()
-        dispatch(createFolder(folderData))
-        setFolderData(initialFormData)
+        if (folderData.folderName === '') {
+            setError('Folder name is required')
+            return;
+        } else {
+            dispatch(createFolder(folderData))
+            setFolderData(initialFormData)
+            handleClose()
+        }
     }
 
     return (
         <div>
-            <h2>{profileData.email}</h2>
-            <Button variant="dark" onClick={handleShow}>
-                New folder
-            </Button>
+            <div className={styles.header}>
+                <div>
+                    <h1 className={styles.profileTitle}>Wellcome</h1>
+                    <h4 className={styles.profileSubtitle}>User:   {profileData.email}</h4>
+                </div>
+                <div>
+                    <Button variant="dark" onClick={handleShow} >
+                        New folder
+                    </Button>
+                </div>
+            </div>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                centered
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Create new folder</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleNewFolder}>
                         <Form.Group className={styles.textContainer} controlId="formBasicEmail">
-                            <Form.Label >Folder name</Form.Label>
+                            <Form.Label> Folder name </Form.Label>
                             <Form.Control
                                 type='text'
                                 placeholder="Name"
@@ -65,32 +79,35 @@ function Profile() {
                                 value={folderData.folderName}
                                 onChange={handleChange}
                             />
+                            <Form.Text className="text-muted">
+                                {
+                                    error === 'Folder name is required' ? error : null
+                                }
+                            </Form.Text>
+
                         </Form.Group>
-                        <Button variant="dark" size="lg" className={styles.button} type='submit'>
-                            Create
-                        </Button>
+                        <div className={styles.buttonContainer}>
+                            <Button variant="dark" size="lg" type='submit'>
+                                Create
+                            </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>
 
-            <div>
+            <div className={styles.foldersContainer}>
                 {
-                    folders?.map((fold, i) => (
-                        <div key={i}>
-                            <Link to={'/folder/' + fold.id} >
-                                <h3>{fold?.folderName}</h3>
-                            </Link>
-                            <h4>Total todos: {
-                                todos?.filter(todo => todo.folderId === fold.id).length
-                            }</h4>
-                            <Button variant="dark" onClick={() => handleDelete(fold.id)}>
-                                Delete folder
-                            </Button>
-                        </div>
+                    folders?.map((folder, i) => (
+                        <Folder
+                            key={i}
+                            folderId={folder.id}
+                            folderName={folder.folderName}
+                            userId={folder.userId}
+                        />
                     ))
                 }
             </div>
-        </div>
+        </div >
     )
 }
 
