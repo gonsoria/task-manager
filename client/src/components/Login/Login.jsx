@@ -5,10 +5,14 @@ import Button from 'react-bootstrap/Button'
 import styles from '../../styles/Styles.module.css'
 import { logIn } from '../../redux/actions'
 import { Link } from 'react-router-dom'
+import Spinner from 'react-bootstrap/Spinner'
 
 function Login() {
     const dispatch = useDispatch()
     const accountStatus = useSelector(state => state.accountStatus)
+    const isAuthenticated = useSelector(state => state.isAuthenticated)
+
+    console.log(isAuthenticated)
 
     const initialUserData = {
         email: '',
@@ -85,7 +89,19 @@ function Login() {
                 </Form.Group>
 
                 <Button variant="dark" size="lg" className={styles.button} type='submit'>
-                    Continue
+
+                    {
+                        isAuthenticated ? 'Continue' :
+                            < Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                className={styles.spinner}
+                            />
+
+                    }
                 </Button>
                 <Form.Text>
                     Or
