@@ -33,10 +33,20 @@ function TodoCard({ title, description, created, status, id }) {
         })
     }
 
+    const handleEditForm = (title, description) => {
+        setFormValue({
+            ...formValue,
+            title: title,
+            description: description
+        })
+        handleShow()
+    }
+
     const handleEdit = (e) => {
         e.preventDefault()
         dispatch(editTodo(formValue, id))
         setFormValue(initialFormValue)
+        handleClose()
     }
 
     const handleStatus = () => {
@@ -108,11 +118,11 @@ function TodoCard({ title, description, created, status, id }) {
             >
                 <div className={styles.todoInfo}>
                     <h2 className={styles.todoTitle}>{title}</h2>
-                    <p>{description}</p>
-                    <p>Created: {created.split('T')[0]}</p>
+                    <p className={styles.cardDescription}>{description}</p>
+                    <p>Created: {created.split('T')[0].split("-").reverse().join("-")}</p>
                 </div>
                 <div className={styles.buttons}>
-                    <Button variant="primary" onClick={handleShow} className={styles.button}>
+                    <Button variant="primary" onClick={() => handleEditForm(title, description)} className={styles.button}>
                         <AiOutlineEdit className={styles.icon} /> </Button>
 
                     <Button variant="danger" onClick={handleDelete} className={styles.button}> <AiOutlineDelete className={styles.icon} /> </Button>

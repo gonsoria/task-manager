@@ -8,16 +8,25 @@
 }
 
 .todoInfo {
+    position: relative;
     display: flex;
     flex-direction: column;
     text-align: left;
-    width: 60%;
+    width: 75%;
+}
+
+.cardDescription {
+    max-width: 100%;
+    overflow-y: auto;
 }
 
 .todoInfo p {
-    margin: 0;
+    margin: 5px;
     max-height: 100px;
-    overflow: scroll;
+}
+
+.cardDescription {
+    overflow-y: scroll;
 }
 
 .todoTitle {
@@ -31,10 +40,26 @@
 
 .buttons {
     display: flex;
-    margin: 0 10px;
+    flex-direction: column-reverse;
+    margin: 0 5px;
 }
 
 .button {
     padding: 4px 8px;
-    margin: 5px;
+    margin: 2px;
+}
+
+@media screen and (min-width: 576px) {
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0 5px;
+    }
+
+    .button {
+        padding: 4px 8px;
+        margin: 5px;
+    }
+
 }

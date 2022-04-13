@@ -124,10 +124,9 @@ function TodoList() {
                 </Modal.Body>
             </Modal>
             {
-                actualTodos?.map(task =>
-                    <ListGroup as="ol" numbered>
+                actualTodos?.map((task, i) =>
+                    <ListGroup as="ol" numbered key={i}>
                         <TodoCard
-                            key={task.id}
                             id={task.id}
                             title={task.title}
                             description={task.description}
