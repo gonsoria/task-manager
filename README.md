@@ -49,9 +49,9 @@ CLIENT:
 ## App 
 The landing page its a login system, you can create a new user (password will be encrypted in the database) or try it with this user:
 
-Email: **ensolvers@ensolvers.com**
+Email: **usertest@user.com**
 
-Password: **ensolvers**
+Password: **user1234**
 
 ## Deploy
 
